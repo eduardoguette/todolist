@@ -1,6 +1,5 @@
 import React from "react";
 import { DivListaDeTareas } from "./styles";
-import Moment from "react-moment";
 
 function ListaDeTareas({ handleDeleteNote, task }) {
   /*   var date = new Date();

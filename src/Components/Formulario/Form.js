@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from "react";
 import { DivFormulario } from "./styles.js";
 import ListaDeTareas from "../ListaDeTareas/ListaDeTareas";
 import imagenRelax from "../../icons/relaxing.svg";
-import AOS from "aos"
 const Home = () => {
   const [value, setValue] = useState("");
   const [notes, setNotes] = useState("");
