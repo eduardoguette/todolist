@@ -1,11 +1,12 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { DivFormulario } from "./styles.js";
 import ListaDeTareas from "../ListaDeTareas/ListaDeTareas";
-
+import imagenRelax from "../../icons/relaxing.svg";
+import AOS from "aos"
 const Home = () => {
   const [value, setValue] = useState("");
   const [notes, setNotes] = useState("");
-  const [isLocked, setIsLocked] = useState(true);
+  const [isFilter, setIsFilter] = useState(false);
   const [arraysNotes, setarraysNotes] = useState([]);
   const [note, setNote] = useState({
     note: "",
@@ -27,34 +28,39 @@ const Home = () => {
   };
 
   const handleDeleteNote = (e) => {
-    setIsLocked(true);
+    setIsFilter(true);
     setValue(e.target.previousSibling.textContent);
   };
 
   useEffect(() => {
-    console.log(arraysNotes.length);
-    if (arraysNotes.length >= 1) {
-      localStorage.setItem("tasks", JSON.stringify(arraysNotes));
+    if (isFilter) {
+      setarraysNotes(arraysNotes.filter((elem) => elem !== value));
+      setIsFilter(false);
     }
     
-    if (isLocked) {
-      setarraysNotes(arraysNotes.filter((elem) => elem !== value));
-      setIsLocked(false);
+    setTimeout(() => {
+      localStorage.setItem("tasks", JSON.stringify(arraysNotes));
       
-    }
-  }, [arraysNotes, isLocked, value]);
+    }, 200);
+  }, [arraysNotes, isFilter, value]);
 
   window.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("tasks")) {
       setarraysNotes(JSON.parse(localStorage.getItem("tasks")));
     }
+    
   });
 
   const Tasks = () => {
     if (arraysNotes.length >= 1) {
       return arraysNotes.map((task, i) => <ListaDeTareas handleDeleteNote={handleDeleteNote} task={task} key={i} />);
     } else {
-      return <h2>No tienes Pendientes</h2>;
+      return (
+        <div className="container-done">
+          <img src={imagenRelax} height="200" alt={imagenRelax} />
+          <h2> ¡Terminaste todo lo que tenias pendiente!</h2>
+        </div>
+      );
     }
   };
 

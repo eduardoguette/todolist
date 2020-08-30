@@ -49,17 +49,21 @@ export const DivFormulario = styled.div`
     padding: 0.89em 0.89em;
     background-color: rgb(43, 89, 230);
   }
-  @media screen and (min-width:540px){
-    input {
-    width: 280px;
-  }
-  h2{
+  h2 {
+    margin: 1em 0;
     color: white;
     font-size: 1em;
-    text-align: center; 
-    &:after{
-      content: "! 😃🎉👌"
-    }
+    text-align: center;
+    font-weight: 400;
   }
+  .container-done{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  @media screen and (min-width: 540px) {
+    input {
+      width: 280px;
+    }
   }
 `;

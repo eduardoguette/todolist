@@ -11,7 +11,7 @@ export const DivListaDeTareas = styled.div`
   }
   .task {
     color: white;
-    font-weight: 700;
+    font-weight:500;
     cursor: pointer;
     font-size: 1.2em;
     &:hover{
