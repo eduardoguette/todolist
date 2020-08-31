@@ -6,10 +6,19 @@ const Home = () => {
   const [value, setValue] = useState("");
   const [notes, setNotes] = useState("");
   const [isFilter, setIsFilter] = useState(false);
-  const [arraysNotes, setarraysNotes] = useState([]);
+  const [isDone, setIsDone] = useState(false);
+  const [nota, setNota] = useState({
+    note: "",
+    statusDone: isDone,
+    date: "",
+  });
+  const [lista, setLista] = useState([]);
   const [note, setNote] = useState({
     note: "",
   });
+
+  const date = new Date();
+  const fecha = date.getDate() + "/" + parseInt(date.getMonth() + 1) + "/" + date.getFullYear();
 
   const handleAddNotes = (e) => {
     setNotes(e.target.value);
@@ -17,42 +26,46 @@ const Home = () => {
       ...note,
       [notes]: notes,
     });
+    setNota({
+      note: e.target.value,
+      statusDone: isDone,
+      date: fecha,
+    });
   };
 
   const handleSubmitAddNotes = (e) => {
     e.preventDefault();
-    setarraysNotes([...arraysNotes, notes]);
-
     setNotes("");
+    setLista([...lista, nota]);
   };
 
   const handleDeleteNote = (e) => {
-    setIsFilter(true);
     setValue(e.target.previousSibling.textContent);
+    setIsFilter(true);
   };
 
   useEffect(() => {
     if (isFilter) {
-      setarraysNotes(arraysNotes.filter((elem) => elem !== value));
+      setLista(lista.filter(({note}) => note !== value));
       setIsFilter(false);
     }
-    
+
     setTimeout(() => {
-      localStorage.setItem("tasks", JSON.stringify(arraysNotes));
-      
-    }, 200);
-  }, [arraysNotes, isFilter, value]);
+      localStorage.setItem("tasks", JSON.stringify(lista));
+    }, 100);
+    
+  }, [isFilter, lista, value, isDone]);
 
   window.addEventListener("DOMContentLoaded", () => {
+
     if (localStorage.getItem("tasks")) {
-      setarraysNotes(JSON.parse(localStorage.getItem("tasks")));
+      setLista(JSON.parse(localStorage.getItem("tasks")));
     }
-    
   });
 
   const Tasks = () => {
-    if (arraysNotes.length >= 1) {
-      return arraysNotes.map((task, i) => <ListaDeTareas handleDeleteNote={handleDeleteNote} task={task} key={i} />);
+    if (lista.length >= 1) {
+      return lista.map(({ note, statusDone, date }, i) => <ListaDeTareas handleDeleteNote={handleDeleteNote} date={date} note={note} key={i} id={i} setIsDone={setIsDone} isDone={isDone} lista={lista} />);
     } else {
       return (
         <div className="container-done">
@@ -69,7 +82,7 @@ const Home = () => {
         <div className="form">
           <form action="#" onSubmit={handleSubmitAddNotes} className="wrapper">
             <div>
-              <input onChange={handleAddNotes} className="input" type="text" value={notes} placeholder="Pendientes..." name="note" />
+              <input onChange={handleAddNotes} className="input" type="text" value={notes} placeholder="Go to supermarket..." name="note" required />
             </div>
             <div>
               <button type="submit">Submit</button>

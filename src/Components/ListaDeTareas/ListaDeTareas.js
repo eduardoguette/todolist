@@ -1,28 +1,34 @@
 import React from "react";
 import { DivListaDeTareas } from "./styles";
 
-function ListaDeTareas({ handleDeleteNote, task }) {
+function ListaDeTareas({ handleDeleteNote, note, date, setIsDone, isDone, lista, id }) {
   /*   var date = new Date();
   var anio = date.getFullYear() */
-  
-  const taskDone = (e) => {
-    if (e.target.style.cssText.includes("red")) {
-      e.target.style.textDecoration = "none";
+
+  const taskDone = () => {
+    if (lista[id].statusDone) {
+      setIsDone(false);
+      lista[id].statusDone = isDone;
+      lista[id].statusDone = false
     } else {
-      e.target.style.textDecoration = "line-through";
-      e.target.style.textDecorationColor = "red";
+      setIsDone(true);
+      lista[id].statusDone = isDone;
+      lista[id].statusDone = true
     }
+    
+    
   };
 
   return (
-    <DivListaDeTareas >
-      <div className="container-task" >
-        <span onClick={taskDone} className="task" >
-          {task}   
+    <DivListaDeTareas isDone={lista[id].statusDone}>
+      <div className="container-task">
+        <span onClick={taskDone} className="task">
+          {note}
         </span>
         <span onClick={handleDeleteNote} className="task-delete">
           x
         </span>
+        <small>{date}</small>
       </div>
     </DivListaDeTareas>
   );

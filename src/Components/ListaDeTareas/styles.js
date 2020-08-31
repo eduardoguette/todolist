@@ -11,12 +11,20 @@ export const DivListaDeTareas = styled.div`
   }
   .task {
     color: white;
-    font-weight:500;
+    font-weight: 500;
     cursor: pointer;
     font-size: 1.2em;
-    &:hover{
+    text-decoration: ${(props) => (props.isDone ? "line-through" : "none")};
+    text-decoration-color: red;
+    &:hover {
       color: #f9ffaa;
     }
+  }
+  small {
+    color: white;
+    font-weight: 700;
+    font-size: .7em;
+    color: #B35AEC;
   }
   .task-delete {
     cursor: pointer;
